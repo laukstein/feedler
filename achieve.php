@@ -13,13 +13,13 @@ $navigation = '';
 $suggestionsForm = '';
 $page = [
     'title' => empty($link) && empty($origin) ?
-        ($isPersonalized ? 'All feeds' : 'Feedly delivers you the latest news') : null
+        ($isPersonalized ? 'All feeds' : 'Feedler delivers you the latest news') : null
 ];
 
 if (!$isPersonalized && $origin !== 'about') {
     $page['description'] = [
         'Personalize your news list by entering feed address in search field.<br>Try for example <button class=highlight name=url value="http://www.cnet.com/rss/all/">http://www.cnet.com/rss/all/</button>',
-        'Your list stays private. Read more <button name=page value=about>about Feedly</button>.'
+        'Your list stays private. Read more <button name=page value=about>about Feedler</button>.'
     ];
     $page['form'] = true;
 }
