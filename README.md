@@ -8,7 +8,7 @@ Feedler is a personalized news reader, made specialy for [10K Apart](https://a-k
 **Type a feed address and click Enter.**<br>
 Supports RSS2.0, RSS1.0 and ATOM feed formats, LTR/RTL articles.<br>
 By default Feedler returns the last 3 days news, is customizable in UI.<br>
-After added the first feed, it will display also imeges for article is has, is customizable in UI.
+After added the first feed, it will display also images for article is has, is customizable in UI.
 
 
 ## Benifits

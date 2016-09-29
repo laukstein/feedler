@@ -79,7 +79,7 @@ if ($origin === 'about') {
     $page['title'] = 'About Feedler';
     $page['content'] ='<p>Feedler is a personalized news reader, made specialy for <a href=https://a-k-apart.com target=_blank rel=noopener tabindex=0>10K Apart</a> contest. Open-source code in <a href=https://github.com/laukstein/feedler target=_blank rel=noopener tabindex=0>GitHub</a>.</p>
 <h2>How to use</h2>
-<p><b>Type a feed address and click Enter.</b><br>Supports RSS2.0, RSS1.0 and ATOM feed formats, LTR/RTL articles.<br>By default Feedler returns the last 3 days news, is customizable in UI.<br>After added the first feed, it will display also imeges for article is has, is customizable in UI.</p>
+<p><b>Type a feed address and click Enter.</b><br>Supports RSS2.0, RSS1.0 and ATOM feed formats, LTR/RTL articles.<br>By default Feedler returns the last 3 days news, is customizable in UI.<br>After added the first feed, it will display also images for article is has, is customizable in UI.</p>
 <h2>Benifits</h2>
 <ul>
     <li>Optimized for 10kB inital page load (till user adds feeds)
