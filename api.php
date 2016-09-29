@@ -161,20 +161,21 @@ function feedFeach($listURL) {
                                 }
                             }
                         }
+                        if (isset($item->title) && strlen($item->title)) {
+                            array_push($json['item'], array_filter([
+                                'title' => summarizeText($item->title),
+                                'link' => absURL($item->link),
+                                'image' => $isPersonalized && $imageShow ? absURL($image) : null,
+                                'description' => summarizeText(isset($item->description) ? $item->description : $description),
+                                'pubDate' => elapsedTime($item->pubDate),
+                                'datetime' => datetime($item->pubDate),
+                                'source' => $source
+                            ]));
 
-                        array_push($json['item'], array_filter([
-                            'title' => summarizeText($item->title),
-                            'link' => absURL($item->link),
-                            'image' => $isPersonalized && $imageShow ? absURL($image) : null,
-                            'description' => summarizeText(isset($item->description) ? $item->description : $description),
-                            'pubDate' => elapsedTime($item->pubDate),
-                            'datetime' => datetime($item->pubDate),
-                            'source' => $source
-                        ]));
+                            $json['info'][$url]['count'] += 1;
 
-                        $json['info'][$url]['count'] += 1;
-
-                        if ($maxCount && ++$i === $maxCount) break;
+                            if ($maxCount && ++$i === $maxCount) break;
+                        }
                     } else {
                         break;
                     }
@@ -227,20 +228,21 @@ function feedFeach($listURL) {
                                 }
                             }
                         }
+                        if (isset($item->title) && strlen($item->title)) {
+                            array_push($json['item'], array_filter([
+                                'title' => summarizeText($item->title),
+                                'link' => absURL($item->link),
+                                'image' => $isPersonalized && $imageShow ? absURL($image) : null,
+                                'description' => summarizeText($item->description),
+                                'pubDate' => elapsedTime($item->children('http://purl.org/dc/elements/1.1/')->date),
+                                'datetime' => datetime($item->children('http://purl.org/dc/elements/1.1/')->date),
+                                'source' => $source
+                            ]));
 
-                        array_push($json['item'], array_filter([
-                            'title' => summarizeText($item->title),
-                            'link' => absURL($item->link),
-                            'image' => $isPersonalized && $imageShow ? absURL($image) : null,
-                            'description' => summarizeText($item->description),
-                            'pubDate' => elapsedTime($item->children('http://purl.org/dc/elements/1.1/')->date),
-                            'datetime' => datetime($item->children('http://purl.org/dc/elements/1.1/')->date),
-                            'source' => $source
-                        ]));
+                            $json['info'][$url]['count'] += 1;
 
-                        $json['info'][$url]['count'] += 1;
-
-                        if ($maxCount && ++$i === $maxCount) break;
+                            if ($maxCount && ++$i === $maxCount) break;
+                        }
                     } else {
                         break;
                     }
@@ -287,20 +289,21 @@ function feedFeach($listURL) {
                                 }
                             }
                         }
+                        if (isset($item->title) && strlen($item->title)) {
+                            array_push($json['item'], array_filter([
+                                'title' => summarizeText($item->title),
+                                'link' => absURL($item->link->attributes()->href),
+                                'image' => $isPersonalized && $imageShow ? absURL($image) : null,
+                                'description' => summarizeText(isset($item->content) ? $item->content : $description),
+                                'pubDate' => elapsedTime($date),
+                                'datetime' => datetime($date),
+                                'source' => $source
+                            ]));
 
-                        array_push($json['item'], array_filter([
-                            'title' => summarizeText($item->title),
-                            'link' => absURL($item->link->attributes()->href),
-                            'image' => $isPersonalized && $imageShow ? absURL($image) : null,
-                            'description' => summarizeText(isset($item->content) ? $item->content : $description),
-                            'pubDate' => elapsedTime($date),
-                            'datetime' => datetime($date),
-                            'source' => $source
-                        ]));
+                            $json['info'][$url]['count'] += 1;
 
-                        $json['info'][$url]['count'] += 1;
-
-                        if ($maxCount && ++$i === $maxCount) break;
+                            if ($maxCount && ++$i === $maxCount) break;
+                        }
                     } else {
                         break;
                     }
