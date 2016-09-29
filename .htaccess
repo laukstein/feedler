@@ -1,0 +1,31 @@
+<IfModule headers_module>
+    Header set X-Frame-Options SAMEORIGIN
+</IfModule>
+<IfModule rewrite_module>
+    RewriteEngine On
+
+    # Block access to storing directories
+    RewriteRule (^|/)\~ - [F]
+
+    # Access file without extension
+    RewriteCond %{DOCUMENT_ROOT}/$1\.php -f
+    RewriteRule ^(.+?)/?$ /$1.php [L]
+    # Remove index file
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\s/(|.*/)index\.php($|\s|\?) [OR]
+    # Remove file extension
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\s/(.*)\.php($|\s|\?)
+    RewriteRule (^|.+) /%1 [R=301,L]
+
+    # Filename-based cache busting
+    RewriteRule ^sw-(\d{1,10}+)$ sw.php?ver=$1 [L]
+
+    RewriteRule ^manifest$ manifest.php [QSD,L]
+
+    # URL rewrite and secure directories
+    RewriteCond %{THE_REQUEST} \s/+(\S+)
+    RewriteRule ^achieve([^\.css$].*)?$ achieve.php?url=%1 [B,L]
+
+    RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+    RewriteCond %{THE_REQUEST} \s/+(\S+)
+    RewriteRule (.*) index.php?url=%1 [QSD,L]
+</IfModule>
