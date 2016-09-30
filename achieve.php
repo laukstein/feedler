@@ -18,7 +18,7 @@ $page = [
 
 if (!$isPersonalized && $origin !== 'about') {
     $page['description'] = [
-        'Personalize your news list by entering feed address in search field.<br>Try for example <button class=highlight name=url value="http://www.cnet.com/rss/all/">http://www.cnet.com/rss/all/</button>',
+        'Personalize your news list by entering feed address in search field.<br>Try for example <button class=highlight name=url value="http://www.cnet.com/rss/all/">http://www.cnet.com/rss/all/</button> <a href=' . $path . 'feedler.png title="Feedler with feeds" target=_blank>see Preview</a>.',
         'Your list stays private. Read more <button name=page value=about>about Feedler</button>.'
     ];
     $page['form'] = true;

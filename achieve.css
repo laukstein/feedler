@@ -105,11 +105,18 @@ summary {
     cursor: default;
 }
 form,
+button,
 .articles article {
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
+}
+form p {
+    -webkit-user-select: initial;
+       -moz-user-select: initial;
+        -ms-user-select: initial;
+            user-select: initial;
 }
 [type=submit] {
     padding: .25em .5em;
@@ -309,7 +316,7 @@ article p {
 .note {
         width: 36em;
     max-width: 100%;
-    padding: 3% 2em 5%;
+    padding: 3% 2em;
     margin: auto;
     box-sizing: border-box;
 }
