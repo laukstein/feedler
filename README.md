@@ -2,6 +2,8 @@
 
 Feedler is a personalized news reader, made specialy for [10K Apart](https://a-k-apart.com) contest.
 
+![Feedler](feedler.png "Feedler with feeds")
+
 
 ## How to use
 
