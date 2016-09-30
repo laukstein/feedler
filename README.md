@@ -22,9 +22,9 @@ After added the first feed, it will display also images for article is has, is c
 * Cloudinary CDN
 
 
-## Minimum server requirements
+## Server requirements
 
-Apache 2.4 + headers_module and rewrite_module, PHP 5.4 + dom, curl and SimpleXML.<br>
+Apache 2.4 + rewrite_module or IIS Web.config, PHP 5.4 + dom, curl and SimpleXML.<br>
 Directory [`~cache`](~cache) must be writable, run `chmod -R 777 ~cache`
 
 [`config.php`](config.php) contains configuration flags. Optimized images delivered trough Cloudinary CDN, if whenever exceeded CDN bandwidth, set `$imageFrefix` value to **null**.
