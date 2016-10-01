@@ -2,20 +2,34 @@
 
 include 'config.php';
 
-if ($canonical !== $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . (isset($_GET['url']) ? $_GET['url'] : null)) {
-    header("Location: $canonical", true, 301);
-    exit;
-}
-
-ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
-
 header('Cache-Control: no-cache');
-
-if ($scheme === 'https') header('Content-Security-Policy: upgrade-insecure-requests; referrer no-referrer');
 
 $url = isset($_POST['url']) ? htmlspecialchars($_POST['url'], ENT_COMPAT) : null;
 $openPage = isset($_POST['page']) && $_POST['page'] === 'about' ? true : false;
-$ver_css = filemtime('style.min.css');
+$targetURL = $openPage ? '/about' : (strlen($url) ? '/' . $url : null);
+$currentURL = isset($_GET['i']) ? $_GET['i'] : null;
+
+if ($targetURL) {
+    header("Location: {$path}i$targetURL", true, 301);
+    exit;
+} else if (!$url) {
+    $inRoot = preg_match('/^\/?' . str_replace('/', '\/', $currentURL) . '\/?$/', $path);
+
+    if (($url === '' || $inRoot) && $canonical !== $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . $currentURL) {
+        header("Location: $canonical", true, 301);
+        exit;
+    } else {
+        $url = preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
+        $openPage = $url === 'about';
+        $targetURL = $url ?  '/' . $url : null;
+    }
+}
+
+if ($scheme === 'https') header('Content-Security-Policy: upgrade-insecure-requests; referrer no-referrer');
+
+ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
+
+$verCSS = filemtime('style.min.css');
 
 echo "<!doctype html>
 <html lang=en>
@@ -24,7 +38,7 @@ echo "<!doctype html>
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
-<link rel=stylesheet href={$path}style-$ver_css.css>
+<link rel=stylesheet href={$path}style-$verCSS.css>
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
 
 if (!empty($root)) echo "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
@@ -49,7 +63,7 @@ echo "\n            </datalist>
         </div>
     </div>
 </header>
-<iframe name=content class=content src=\"{$path}achieve" . ($openPage ? '/about' : (strlen($url) ? '/' . $url : null)) . "\" width=640 height=960>Loading iframe data...</iframe>
+<iframe name=content class=content src=\"{$path}achieve$targetURL\" width=640 height=960>Loading iframe data...</iframe>
 <div class=\"content progress\">
     <div class=logo><span></span></div>
     <h1><span>Feedler</span><small>Specialy for 10K Apart</small></h1>";

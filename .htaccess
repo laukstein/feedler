@@ -28,5 +28,5 @@
 
     RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
     RewriteCond %{THE_REQUEST} \s/+(\S+)
-    RewriteRule (.*) index.php?url=%1 [QSD,L]
+    RewriteRule (.*) index.php?i=%1 [B,L]
 </IfModule>
