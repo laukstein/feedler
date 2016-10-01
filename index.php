@@ -21,13 +21,12 @@ echo "<!doctype html>
 <meta charset=utf-8>
 <title>Feedler</title>
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
-<link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
 <link rel=stylesheet href={$path}style.min.css>
 <link rel=\"shortcut icon\" href={$path}favicon.png>
-<link rel=license href={$path}LICENSE>
 <header>
+<link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
     <div>
         <form method=post>
             <div id=label-input hidden>Enter feed address</div>
