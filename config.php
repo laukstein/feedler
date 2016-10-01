@@ -8,9 +8,11 @@ if (isset($_POST['maxRange'])) {
     $_SESSION['maxRange'] = $_POST['maxRange'];
 }
 
-// TURN THIS TO null if bandwidth exceeded
-$imageFrefix = '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/';
-// $imageFrefix = null;
+$isLocalhost = preg_match('/^(127.0.0.1|10.0.0.\d{1,3})$/', $_SERVER['REMOTE_ADDR']);
+
+// IMPORTANT: Change $imagePrefix value to null if Cloudinary bandwidth is exceeded (is null on localhost)
+$imagePrefix = $isLocalhost ? null : '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/';
+// $imagePrefix = null;
 
 $cacheDir = '~cache';
 $imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;

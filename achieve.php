@@ -28,11 +28,11 @@ function info($obj) {
     return $obj['title'] ? $obj['title'] : null;
 }
 function item($obj) {
-    global $imageShow, $imageFrefix;
+    global $imageShow, $imagePrefix;
 
     return '<a href="' . $obj['link'] . '" target=_blank rel="nofollow noopener" tabindex=0>' .
         (isset($obj['title']) ? '<h2 dir=auto>' . $obj['title'] . '</h2>' : null) .
-        (isset($obj['image']) ? '<div class=image ' . ($imageShow ? null : 'data-') . 'style="background-image:url(\'' . $imageFrefix . $obj['image'] . '\')"></div>' : null) .
+        (isset($obj['image']) ? '<div class=image ' . ($imageShow ? null : 'data-') . 'style="background-image:url(\'' . $imagePrefix . $obj['image'] . '\')"></div>' : null) .
         (isset($obj['description']) ? '<p dir=auto>' . $obj['description'] . '</p>' : null) .
         '<time datetime="' . $obj['datetime'] . '">' . $obj['pubDate'] . (isset($obj['source']) ? ' — <span class=author dir=auto>' . $obj['source'] . '</span>' : null) . '</time></a>';
 }
@@ -90,7 +90,7 @@ if ($origin === 'about') {
 </ul>
 <h2>Minimum server requirements</h2>
 <p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>Web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable, run <code>chmod -R 777 ~cache</code></p>
-<p><var>config.php</var> contains configuration flags. Optimized images delivered trough Cloudinary CDN, if whenever exceeded CDN bandwidth, set <var>$imageFrefix</var> value to <b>null</b>.
+<p><var>config.php</var> contains configuration flags. Optimized images delivered trough Cloudinary CDN, if whenever exceeded CDN bandwidth, set <var>$imagePrefix</var> value to <b>null</b>.
 <h2>Storage</h2>
 <ul>
     <li>Web assets like CSS are stored in Web Cache Storage
