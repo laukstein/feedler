@@ -10,7 +10,7 @@ $targetURL = $openPage ? '/about' : (strlen($url) ? '/' . $url : null);
 $currentURL = isset($_GET['i']) ? $_GET['i'] : null;
 
 if ($targetURL) {
-    header("Location: {$path}i$targetURL", true, 301);
+    header("Location: {$path}i$targetURL");
     exit;
 } else if (!$url) {
     $inRoot = preg_match('/^\/?' . str_replace('/', '\/', $currentURL) . '\/?$/', $path);
