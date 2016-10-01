@@ -18,7 +18,7 @@
 
     # Filename-based cache busting
     RewriteRule ^sw-(\d{1,10}+)$ sw.php?ver=$1 [L]
-    RewriteRule (.+)-(\d{1,10}+).(.+)$ $1.min.$3 [L]
+    RewriteRule ^(.+)-(\d{1,10}+).css$ $1.min.css [L]
 
     RewriteRule ^manifest$ manifest.php [QSD,L]
 
