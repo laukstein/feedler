@@ -156,8 +156,9 @@ if ($origin === 'about') {
         $result = "\n    <div class=note role=article>" . pageHeader() . '</div>';
     }
 }
-
 if (!empty($root)) $result .= "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
+
+$ver_css = filemtime('achieve.min.css');
 
 echo '<!doctype html>
 <html lang=en>
@@ -165,6 +166,6 @@ echo '<!doctype html>
 <title>' . $page['title'] . " — Feedler</title>
 <meta name=robots content=noindex>
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
-<link rel=stylesheet href={$path}achieve.min.css>
+<link rel=stylesheet href={$path}achieve-$ver_css.css>
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>
 $result";

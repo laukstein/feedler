@@ -15,6 +15,7 @@ if ($scheme === 'https') header('Content-Security-Policy: upgrade-insecure-reque
 
 $url = isset($_POST['url']) ? htmlspecialchars($_POST['url'], ENT_COMPAT) : null;
 $openPage = isset($_POST['page']) && $_POST['page'] === 'about' ? true : false;
+$ver_css = filemtime('style.min.css');
 
 echo "<!doctype html>
 <html lang=en>
@@ -23,7 +24,7 @@ echo "<!doctype html>
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
-<link rel=stylesheet href={$path}style.min.css>
+<link rel=stylesheet href={$path}style-$ver_css.css>
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
 
 if (!empty($root)) echo "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
