@@ -157,12 +157,14 @@ if ($origin === 'about') {
     }
 }
 
+if (!empty($root)) $result .= "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
+
 echo '<!doctype html>
 <html lang=en>
 <meta charset=utf-8>
 <title>' . $page['title'] . " — Feedler</title>
 <meta name=robots content=noindex>
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
-<link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>
 <link rel=stylesheet href={$path}achieve.min.css>
+<link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>
 $result";

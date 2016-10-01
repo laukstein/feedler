@@ -24,20 +24,28 @@ echo "<!doctype html>
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
 <link rel=stylesheet href={$path}style.min.css>
-<link rel=\"shortcut icon\" href={$path}favicon.png>
-<header>
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
+
+if (!empty($root)) echo "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
+
+echo "\n<header>
     <div>
         <form method=post>
             <div id=label-input hidden>Enter feed address</div>
             <div id=label-button hidden>Achieve</div>
-            <input list=feeds name=url type=url placeholder=\"Add feed address\" spellcheck=false aria-labelledby=label-input aria-autocomplete=list aria-controls=feeds required" . (strlen($url) || $openPage ? null : ' autofocus') . '><button aria-labelledby=label-button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M11.7 10.3C12.4 9.6 13 8 13 6.5 13 3 10 0 6.5 0S0 3 0 6.5 3 13 6.5 13c1.6 0 3-.5 3.8-1.3l4.2 4.3 1.5-1.5-4.3-4.2zm-5.2.7C4 11 2 9 2 6.5S4 2 6.5 2 11 4 11 6.5 9 11 6.5 11z"/></svg></button><button name=page value=about formnovalidate>About</button><button name=url value="" formnovalidate>Home</button>
+            <input list=feeds name=url type=url placeholder=\"Add feed address\" spellcheck=false aria-labelledby=label-input aria-autocomplete=list aria-controls=feeds required" . (strlen($url) || $openPage ? null : ' autofocus') . '><button aria-labelledby=label-button><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M11.7 10.3C12.4 9.6 13 8 13 6.5 13 3 10 0 6.5 0S0 3 0 6.5 3 13 6.5 13c1.6 0 3-.5 3.8-1.3l4.2 4.3 1.5-1.5-4.3-4.2zm-5.2.7C4 11 2 9 2 6.5S4 2 6.5 2 11 4 11 6.5 9 11 6.5 11z"/></svg></button>
+            <button id=about name=page value=about aria-labelledby=label-about formnovalidate hidden>About</button>
+            <button id=home name=url value="" aria-labelledby=label-home formnovalidate hidden>Home</button>
             <datalist id=feeds>';
 
 foreach ($suggestions as $item) echo "\n                <option value=\"$item\">";
 
 echo "\n            </datalist>
         </form>
+        <div class=flow>
+            <label id=label-about for=about tabindex=0>About</label>
+            <label id=label-home for=home tabindex=0>Home</label>
+        </div>
     </div>
 </header>
 <iframe name=content class=content src=\"{$path}achieve" . ($openPage ? '/about' : (strlen($url) ? '/' . $url : null)) . "\" width=640 height=960>Loading iframe data...</iframe>

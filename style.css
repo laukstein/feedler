@@ -32,8 +32,29 @@ header {
     box-shadow: 0 0 .8em .2em #ddd, 0 0 3em 2em #eee;
 }
 header > div {
+    display: flex;
+    flex-direction: row;
     max-width: 74em;
     margin: auto;
+}
+.flow {
+    order: 2;
+}
+.flow label {
+    display: block;
+    padding: 0 .6em;
+    color: #fff;
+    line-height: 1.55;
+    cursor: pointer;
+}
+.flow label:hover,
+.flow label:focus {
+    background-color: rgba(255,255,255,.15);
+}
+form {
+    overflow: hidden;
+    flex: 1;
+    order: 1;
 }
 input {
     position: relative;
@@ -67,35 +88,21 @@ input::-webkit-calendar-picker-indicator {
 }
 button {
     -webkit-appearance: none;
-    color: initial; /* Safari 10 otherwise on :active state shows white */
-    cursor: pointer;
-}
-button:not([name]) {
     position: relative;
     z-index: 1;
     width: 3.75em;
     height: 3.975em;
     padding: .6em;
     margin-left: -3.8em;
+    color: initial; /* Safari 10 otherwise on :active state shows white */
     background-color: transparent;
     border: 1px solid transparent;
     outline: 0;
+    cursor: pointer;
 }
-button[name] {
-    position: absolute;
-    right: 1.5em;
-    padding: .2em .6em;
-    margin-top: .45em;
-    color: #fff;
-    background-color: transparent;
-    border: 0;
-}
-button[name]:hover,
-button[name]:focus {
-    background-color: rgba(255,255,255,.15);
-}
-button[name] + [name] {
-    margin-top: 2.2em;
+button:active,
+button:focus {
+    background-color: #f3f3f3;
 }
 button svg {
     width: 100%;

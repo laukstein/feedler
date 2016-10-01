@@ -79,6 +79,7 @@ $status = [
 $json = $session = $listURL = [];
 $file = str_replace('.', '\.', basename($_SERVER['PHP_SELF']));
 $path = preg_replace('/' . $file . '$/', '', $_SERVER['PHP_SELF']);
+$root = str_replace($_SERVER['DOCUMENT_ROOT'], '', str_replace('\\', '/', getcwd()));
 $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ||
           isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'https' : 'http';
 $pathNoSlash = getenv('DIR_SLASH') === 'off'; // Compatibility for "DirectorySlash Off" and "RewriteOptions AllowNoSlash"
