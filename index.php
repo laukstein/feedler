@@ -19,7 +19,7 @@ if ($targetURL) {
         header("Location: $canonical", true, 301);
         exit;
     } else {
-        $url = preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
+        $url = $inRoot ? null : preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
         $openPage = $url === 'about';
         $targetURL = $url ?  '/' . $url : null;
     }
