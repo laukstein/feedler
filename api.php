@@ -138,7 +138,8 @@ function feedFeach($listURL) {
 
                             $description = $media ? @$media->children($namespaces['media'])->description : null;
                         }
-                        if (!$image && $isPersonalized && $imageShow) {
+                        if (!$image && $isPersonalized && $imageShow &&
+                            isset($item->description) && strlen($item->description)) {
                             $dom->loadHTML($item->description);
                             libxml_clear_errors();
                             $xpath = new DOMXPath($dom);
