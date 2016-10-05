@@ -7,10 +7,10 @@ header('Content-Type: application/manifest+json');
 
 echo '{
     "lang": "en",
-    "name": "Feeder",
+    "name": "Feedler — personalized news reader",
     "short_name": "Feeder",
     "version": "1",
-    "description": "Feedler — personalized feed reader",
+    "description": "Feedler is a personalized news reader, made specialy for 10K Apart contest.",
     "icons": [{
         "src": "' . $path . 'icon.png",
         "sizes": "196x196"

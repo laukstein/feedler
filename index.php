@@ -39,7 +39,10 @@ echo "<!doctype html>
 <html lang=en>
 <meta charset=utf-8>
 <title>Feedler</title>
+<meta property=og:title content=Feedler>
+<meta property=og:description name=description content=\"Feedler — personalized news reader\">
 <meta name=viewport content=\"width=device-width,initial-scale=1\">
+<meta name=apple-mobile-web-app-capable content=yes>
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
 <link rel=stylesheet href={$path}style-$verCSS.css>
