@@ -41,7 +41,7 @@ $suggestions = [
 ];
 
 // RSS tested
-// https://sarasoueidan.com/rss.xml
+// https://sarasoueidan.com/rss.xml    => Azure returns "HTTP status code 0"
 // http://www.cnet.com/rss/all/
 // http://www.nytimes.com/
 // http://nocamels.com/feed/
