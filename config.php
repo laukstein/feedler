@@ -90,7 +90,7 @@ $canonical = $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . preg_replace('/^\
 if (isset($_GET['url'])) {
     $file = preg_replace('/(index|)\\\.php$/', '', $file);
     $origin = preg_replace('/^\//', '', $path) . $file;
-    $origin = preg_replace('/^' . str_replace('/', '\/', $origin) . '/', '', $_GET['url']);
+    $origin = preg_replace('/^' . str_replace('/', '\/', $origin) . '/', '', preg_replace('/^\//', '', $_GET['url']));
     $origin = preg_replace('/^\//', '', $origin);
 }
 if (empty($origin)) $origin = '';

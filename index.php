@@ -7,7 +7,7 @@ header('Cache-Control: no-cache');
 $url = isset($_POST['url']) ? htmlspecialchars($_POST['url'], ENT_COMPAT) : null;
 $openPage = isset($_POST['page']) && $_POST['page'] === 'about' ? true : false;
 $targetURL = $openPage ? '/about' : (strlen($url) ? '/' . $url : null);
-$currentURL = isset($_GET['i']) ? $_GET['i'] : null;
+$currentURL = isset($_GET['i']) ? preg_replace('/^\//', '', $_GET['i']) : null; // preg_replace() used for IIS compatibility
 
 if ($targetURL) {
     header("Location: {$path}i$targetURL");
