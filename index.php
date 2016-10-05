@@ -85,4 +85,4 @@ if (!$openPage) {
 
 echo '
 </div>
-<script>("localhost"===location.host||"https:"===location.protocol)&&"serviceWorker"in navigator&&navigator.serviceWorker.register("sw-'. $swVersion .'")</script>';
+<script>("localhost"===location.host||"https:"===location.protocol)&&"serviceWorker"in navigator&&navigator.serviceWorker.register("' . $path . 'sw-'. $swVersion .'")</script>';
