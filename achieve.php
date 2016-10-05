@@ -88,7 +88,7 @@ if ($origin === 'about') {
     <li>Cloudinary CDN
 </ul>
 <h2>Minimum server requirements</h2>
-<p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>Web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable, run <code>chmod -R 777 ~cache</code></p>
+<p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable, run <code>chmod -R 777 ~cache</code></p>
 <p><var>config.php</var> contains configuration flags. Optimized images delivered trough Cloudinary CDN, if whenever exceeded CDN bandwidth, set <var>$imagePrefix</var> value to <b>null</b>.
 <h2>Storage</h2>
 <ul>
