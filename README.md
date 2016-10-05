@@ -17,7 +17,7 @@ After added the first feed, it will display also images for article is has, is c
 
 * Optimized for 10kB inital page load (till user adds feeds)
 * Accessiable without JavaScript
-* Cached with ServiceWorker
+* Cached with Service Worker
 * Used HTML5 features
 * Cloudinary CDN
 

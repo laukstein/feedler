@@ -83,7 +83,7 @@ if ($origin === 'about') {
 <ul>
     <li>Optimized for 10kB inital page load (till user adds feeds)
     <li>Accessiable without JavaScript
-    <li>Cached with ServiceWorker
+    <li>Cached with Service Worker
     <li>Used HTML5 features
     <li>Cloudinary CDN
 </ul>

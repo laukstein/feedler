@@ -3,8 +3,8 @@
 var version = "v1";
 
 this.addEventListener("install", function (event) {
-    event.waitUntil(caches.open(version).then(function(cache) {
-        return cache.addAll(["style.css", "achieve.css", "favicon.png", "achieve/about"]);
+    event.waitUntil(caches.open(version).then(function (cache) {
+        return cache.addAll(["i/about", "achieve/about", "sw.js", "style.css", "achieve.css", "favicon.png", "favicon.ico"]);
     }));
 });
 self.addEventListener("activate", function (event) {
@@ -19,7 +19,11 @@ self.addEventListener("activate", function (event) {
 self.addEventListener("fetch", function (event) {
     var request = event.request;
 
-    if (request.method !== "GET") {
-        event.respondWith(fetch(request)); return;
+    if (request.method === "GET") {
+        event.respondWith(caches.match(event.request).then(function (response) {
+            return response || fetch(event.request).catch(function (error) {
+                return caches.match("achieve/about");
+            });
+        }));
     }
 });
