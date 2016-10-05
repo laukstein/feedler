@@ -10,6 +10,8 @@ $targetURL = $openPage ? '/about' : (strlen($url) ? '/' . $url : null);
 $currentURL = isset($_GET['i']) ? preg_replace('/^\//', '', $_GET['i']) : null; // preg_replace() used for IIS compatibility
 
 if ($targetURL) {
+    if ($avoidSpecialChars) $targetURL = str_replace('://', '@', $targetURL);
+
     header("Location: {$path}i$targetURL");
     exit;
 } else if (!$url) {
@@ -22,6 +24,8 @@ if ($targetURL) {
         $url = $inRoot ? null : preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
         $openPage = $url === 'about';
         $targetURL = $url ?  '/' . $url : null;
+
+        if (isset($url) && $avoidSpecialChars) $url = preg_replace('/^(https?)@/', '$1://', $url);
     }
 }
 

@@ -35,12 +35,13 @@ $suggestions = [
     'https://www.youtube.com/feeds/videos.xml?playlist_id=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-',
     'http://blogs.windows.com/feed/',
     'https://www.smashingmagazine.com/feed/',
-    'https://sarasoueidan.com/rss.xml',
+    'http://feeds.feedburner.com/CssTricks',
     'https://material.uplabs.com',
     'http://rss.walla.co.il/?w=/1/0/12/@rss.e'
 ];
 
 // RSS tested
+// https://sarasoueidan.com/rss.xml
 // http://www.cnet.com/rss/all/
 // http://www.nytimes.com/
 // http://nocamels.com/feed/
@@ -86,6 +87,7 @@ $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ||
           isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ? 'https' : 'http';
 $pathNoSlash = getenv('DIR_SLASH') === 'off'; // Compatibility for "DirectorySlash Off" and "RewriteOptions AllowNoSlash"
 $canonical = $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . preg_replace('/^\//', '', ($pathNoSlash ? preg_replace('/\/$/', '', $path) : $path));
+$avoidSpecialChars = strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'microsoft-iis') === 0;
 
 if (isset($_GET['url'])) {
     $file = preg_replace('/(index|)\\\.php$/', '', $file);
@@ -93,7 +95,11 @@ if (isset($_GET['url'])) {
     $origin = preg_replace('/^' . str_replace('/', '\/', $origin) . '/', '', preg_replace('/^\//', '', $_GET['url']));
     $origin = preg_replace('/^\//', '', $origin);
 }
-if (empty($origin)) $origin = '';
+if (empty($origin)) {
+    $origin = '';
+} else if ($avoidSpecialChars) {
+    $origin = preg_replace('/^(https?)@/', '$1://', $origin);
+}
 if (isset($_POST['url'])) $url = $_POST['url'];
 if (empty($url) && filter_var($origin, FILTER_VALIDATE_URL)) $url = $origin;
 if (isset($_POST['remove']) && isset($_SESSION['listURL']) && isset($_SESSION['listURL'][$_POST['remove']])) unset($_SESSION['listURL'][$_POST['remove']]);
