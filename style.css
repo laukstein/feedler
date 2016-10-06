@@ -34,7 +34,6 @@ header {
 header > div {
     display: flex;
     flex-direction: row;
-    max-width: 74em;
     margin: auto;
 }
 .flow {
