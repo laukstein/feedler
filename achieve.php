@@ -120,7 +120,7 @@ if ($origin === 'about') {
         foreach ($maxRangeList as $key => $item) $navigation .= "<option value=$key" . ((string) $key === (string) $maxRange ? ' selected' : null) . ">$item";
 
         $navigation .= '</select>
-        <li class=filter><label title="Display article images"><input name=imageShow type=checkbox onclick=this.form.submit()' . ($imageShow ? ' checked' : null) . '> Show images</label><label title="Using Cloudinary CDN (turn off when bandwidth exceeded)"><input name=overCDN type=checkbox onclick=this.form.submit()' . ($imagePrefix ? ' checked' : null) . '> Over CDN</label><input type=submit value=Update>
+        <li class=filter><label title="Display article images"><input name=imageShow type=checkbox onclick=this.form.submit()' . ($imageShow ? ' checked' : null) . '> Show images</label><label title="Using Cloudinary CDN (turn off when bandwidth exceeded)"><input name=overCDN type=checkbox onclick=this.form.submit()' . ($imagePrefix ? ' checked' : null) . '> Over CDN</label><input name=url value="' . $url . '" hidden><input type=submit value=Update>
         <li><button' . linkParams() .'>All <span>feeds</span></button>';
 
         foreach ($session as $item) {
