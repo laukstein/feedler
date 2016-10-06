@@ -24,7 +24,7 @@ body {
 header {
     position: relative;
     z-index: 2;
-    padding: .74em 2em;
+    padding: .74em 2em .74em 3.3em;
     color: #fff;
     text-align: center;
     background-color: #774cff;
