@@ -133,7 +133,13 @@ form p {
     box-shadow: 1px 1px .1em rgba(0,0,0,.2);
     box-sizing: border-box;
 }
-label:not([hidden]) {
+li.filter.filter {
+    padding-top: 0;
+}
+.disabled {
+    opacity: .6;
+}
+label {
     overflow: hidden;
     display: block;
     max-width: 100%;

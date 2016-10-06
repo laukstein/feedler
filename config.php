@@ -11,17 +11,9 @@ if (isset($_POST['maxRange'])) {
 
 $cacheDir = '~cache';
 $imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;
-$isLocalhost = preg_match('/^(127.0.0.1|10.0.0.\d{1,9})$/', $_SERVER['REMOTE_ADDR']);
-$overCDN = isset($_SESSION['overCDN']) ? $_SESSION['overCDN'] : $isLocalhost;
 $maxRange = isset($_SESSION['maxRange']) ? $_SESSION['maxRange'] : 3; // Feed time range limit
-
-
-// IMPORTANT: Change $imagePrefix value to null if Cloudinary bandwidth is exceeded (is null on localhost)
-$imagePrefix = $overCDN !== true ? null : '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/';
-// $imagePrefix = null;
-
-
-
+$overCDN = isset($_SESSION['overCDN']) ? $_SESSION['overCDN'] : false; // Use Cloudinary CDN for images
+$imagePrefix = $overCDN === true ? '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/' : null;
 $maxRangeList = [
     1 => 'Last 24 hours',
     3 => 'Last 3 days',

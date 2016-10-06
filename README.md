@@ -27,12 +27,12 @@ After added the first feed, it will display also images for article is has, is c
 Apache 2.4 + rewrite_module or IIS web.config, PHP 5.4 + dom, curl and SimpleXML.<br>
 Directory [`~cache`](~cache) must be writable, run `chmod -R 777 ~cache`
 
-[`config.php`](config.php) contains configuration flags. Optimized images delivered trough Cloudinary CDN, if whenever exceeded CDN bandwidth, set `$imagePrefix` value to **null** or turn off CDN in UI.
+[`config.php`](config.php) contains configuration flags. Optimized images delivered trough Cloudinary CDN (turn on/off in UI or `config.php`).
 
 
 ## Storage
 
-* Web assets like CSS are stored in Web Cache Storage
+* CSS assets stored in Web Cache Storage
 * Served feeds are stored for 5 minutes in `~cache`
 * The user session is stored in `session.save_path` till PHP `session.gc_maxlifetime` expired
 
