@@ -378,6 +378,11 @@ article p {
         padding: 1em;
     }
     .subsc span {
+        display: inherit;
+        letter-spacing: 32em;
+    }
+    .subsc button[value=""] span,
+    .subsc img + span {
         display: none;
     }
     [data-count]:before {
