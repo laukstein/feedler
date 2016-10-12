@@ -87,7 +87,7 @@ function feedFeach($listURL) {
             if (count($diff)) receiveData($diff);
         }
     }
-    function setData($rss, $url) {
+    function setData($rss, $searchURL, $feedURL) {
         global $base, $json, $maxCount, $status, $isPersonalized, $imageShow, $defaultURL;
 
         $newURL = isset($_SESSION['personalized']) || $json['session'] !== $defaultURL;
@@ -106,7 +106,7 @@ function feedFeach($listURL) {
             libxml_use_internal_errors(true);
 
             if (@$rss->channel->item) { // RSS2.0
-                $json['info'][$url] = array_filter([
+                $json['info'][$searchURL] = array_filter([
                     'type' => 'RSS2.0',
                     'base' => $base,
                     'title' => summarizeText($rss->channel->title),
@@ -114,10 +114,11 @@ function feedFeach($listURL) {
                     'description' => summarizeText($rss->channel->description),
                     'lastBuildDate' => elapsedTime($rss->channel->lastBuildDate),
                     'datetime' => datetime($rss->channel->lastBuildDate),
-                    'search' => $url
+                    'search' => $searchURL,
+                    'feed' => $feedURL
                 ]);
-                $json['info'][$url]['count'] = 0;
-                $source = $json['info'][$url]['title'];
+                $json['info'][$searchURL]['count'] = 0;
+                $source = $json['info'][$searchURL]['title'];
 
                 foreach ($rss->channel->item as $item) {
                     if (inTimeRange($item->pubDate)) {
@@ -173,7 +174,7 @@ function feedFeach($listURL) {
                                 'source' => $source
                             ]));
 
-                            $json['info'][$url]['count'] += 1;
+                            $json['info'][$searchURL]['count'] += 1;
 
                             if ($maxCount && ++$i === $maxCount) break;
                         }
@@ -183,7 +184,7 @@ function feedFeach($listURL) {
                 }
                 if (!count($json['item'])) array_push($json['status'], $status['range']);
             } else if (@$rss->item) { // RSS1.0
-                $json['info'][$url] = array_filter([
+                $json['info'][$searchURL] = array_filter([
                     'type' => 'RSS1.0',
                     'base' => $base,
                     'title' => summarizeText($rss->channel->title),
@@ -191,10 +192,11 @@ function feedFeach($listURL) {
                     'description' => summarizeText($rss->channel->description),
                     'lastBuildDate' => elapsedTime($rss->channel->lastBuildDate),
                     'datetime' => datetime($rss->channel->lastBuildDate),
-                    'search' => $url
+                    'search' => $searchURL,
+                    'feed' => $feedURL
                 ]);
-                $json['info'][$url]['count'] = 0;
-                $source = $json['info'][$url]['title'];
+                $json['info'][$searchURL]['count'] = 0;
+                $source = $json['info'][$searchURL]['title'];
 
                 foreach ($rss->item as $item) {
                     if (inTimeRange($item->children('http://purl.org/dc/elements/1.1/')->date)) {
@@ -240,7 +242,7 @@ function feedFeach($listURL) {
                                 'source' => $source
                             ]));
 
-                            $json['info'][$url]['count'] += 1;
+                            $json['info'][$searchURL]['count'] += 1;
 
                             if ($maxCount && ++$i === $maxCount) break;
                         }
@@ -250,17 +252,18 @@ function feedFeach($listURL) {
                 }
                 if (!count($json['item'])) array_push($json['status'], $status['range']);
             } else if (@$rss->entry) { // ATOM
-                $json['info'][$url] = array_filter([
+                $json['info'][$searchURL] = array_filter([
                     'type' => 'ATOM',
                     'base' => $base,
                     'title' => summarizeText(isset($rss->entry->title) ? $rss->entry->title : $rss->title),
                     'link' => absURL($rss->link[count($rss->link) - 1]->attributes()->href),
                     'lastBuildDate' => elapsedTime($rss->updated),
                     'datetime' => datetime($rss->updated),
-                    'search' => $url
+                    'search' => $searchURL,
+                    'feed' => $feedURL
                 ]);
-                $json['info'][$url]['count'] = 0;
-                $source = isset($json['info'][$url]['title']) ? $json['info'][$url]['title'] : null;
+                $json['info'][$searchURL]['count'] = 0;
+                $source = isset($json['info'][$searchURL]['title']) ? $json['info'][$searchURL]['title'] : null;
 
                 foreach ($rss->entry as $item) {
                     $date = $item->published;
@@ -301,7 +304,7 @@ function feedFeach($listURL) {
                                 'source' => $source
                             ]));
 
-                            $json['info'][$url]['count'] += 1;
+                            $json['info'][$searchURL]['count'] += 1;
 
                             if ($maxCount && ++$i === $maxCount) break;
                         }
@@ -320,17 +323,18 @@ function feedFeach($listURL) {
                     $_SESSION['personalized'] = true;
                     $_SESSION['imageShow'] = true;
                 }
-                if (empty($_SESSION['listURL'][$url])) {
-                    $_SESSION['listURL'][$url] = [
-                        'url' => $url,
-                        'link' => isset($json['info'][$url]['link']) ? $json['info'][$url]['link'] : null,
-                        'title' => isset($json['info'][$url]['title']) ? $json['info'][$url]['title'] : null,
-                        'description' => isset($json['info'][$url]['description']) ? $json['info'][$url]['description'] : null,
-                        'type' => isset($json['info'][$url]['type']) ? $json['info'][$url]['type'] : null
+                if (empty($_SESSION['listURL'][$searchURL])) {
+                    $_SESSION['listURL'][$searchURL] = [
+                        'url' => $searchURL,
+                        'link' => isset($json['info'][$searchURL]['link']) ? $json['info'][$searchURL]['link'] : null,
+                        'title' => isset($json['info'][$searchURL]['title']) ? $json['info'][$searchURL]['title'] : null,
+                        'description' => isset($json['info'][$searchURL]['description']) ? $json['info'][$searchURL]['description'] : null,
+                        'type' => isset($json['info'][$searchURL]['type']) ? $json['info'][$searchURL]['type'] : null,
+                        'feed' => isset($json['info'][$searchURL]['feed']) ? $json['info'][$searchURL]['feed'] : null
                     ];
                 }
 
-                $_SESSION['listURL'][$url]['count'] = isset($json['info'][$url]['count']) ? $json['info'][$url]['count'] : 0;
+                $_SESSION['listURL'][$searchURL]['count'] = isset($json['info'][$searchURL]['count']) ? $json['info'][$searchURL]['count'] : 0;
             }
         }
     }
@@ -362,7 +366,7 @@ function feedFeach($listURL) {
             $base = parse_url($url);
             $base = $base['scheme'] . '://' . $base['host'];
 
-            setData(@simplexml_load_string($content), $originURL);
+            setData(@simplexml_load_string($content), $originURL, $url);
             newRequest();
 
             return $json;
@@ -420,7 +424,7 @@ function feedFeach($listURL) {
                 $base = parse_url($url);
                 $base = $base['scheme'] . '://' . $base['host'];
 
-                setData($rss, $originURL);
+                setData($rss, $originURL, $url);
             } else if ($content && $feedSearch) {
                 $dom = new DOMDocument;
                 $dom->preserveWhiteSpace = false;

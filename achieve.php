@@ -27,11 +27,11 @@ function info($obj) {
     return $obj['title'] ? $obj['title'] : null;
 }
 function item($obj) {
-    global $imageShow, $imagePrefix;
+    global $imageShow;
 
     return '<a href="' . $obj['link'] . '" target=_blank rel="nofollow noopener" tabindex=0>' .
         (isset($obj['title']) ? '<h2 dir=auto>' . $obj['title'] . '</h2>' : null) .
-        (isset($obj['image']) && $imageShow ? '<div class=image style="background-image:url(\'' . $imagePrefix . $obj['image'] . '\')"></div>' : null) .
+        (isset($obj['image']) && $imageShow ? '<div class=image style="background-image:url(\'' . imageOptimized($obj['image']) . '\')"></div>' : null) .
         (isset($obj['description']) ? '<p dir=auto>' . $obj['description'] . '</p>' : null) .
         '<time datetime="' . $obj['datetime'] . '">' . $obj['pubDate'] . (isset($obj['source']) ? ' — <span class=author dir=auto>' . $obj['source'] . '</span>' : null) . '</time></a>';
 }
@@ -76,20 +76,23 @@ function pageHeader() {
 
 if ($origin === 'about') {
     $page['title'] = 'About Feedler';
-    $page['content'] ='<p>Feedler is a personalized news reader, made specialy for <a href=https://a-k-apart.com target=_blank rel=noopener tabindex=0>10K Apart</a> contest. Open-source code in <a href=https://github.com/laukstein/feedler target=_blank rel=noopener tabindex=0>GitHub</a>.</p>
+    $page['content'] ='<p>Feedler is a personalized news reader, optimized for performance and accessibility.</p>
+<h2>History</h2>
+<p>Feedler began with participating to <a href=https://a-k-apart.com target=_blank rel=noopener tabindex=0>10K Apart</a> with <a href=https://github.com/laukstein/feedler/releases/tag/v1.0 target=_blank rel=noopener tabindex=0>Version 1</a>, later continued improved. Hosted as open-source under <a href=https://github.com/laukstein/feedler target=_blank rel=noopener tabindex=0>GitHub</a>.</p>
 <h2>How to use</h2>
 <p><b>Type a feed address and click Enter.</b><br>Supports RSS2.0, RSS1.0 and ATOM feed formats, LTR/RTL articles.<br>By default Feedler returns the last 3 days news, is customizable in UI.<br>After added the first feed, it will display also images for article is has, is customizable in UI.</p>
 <h2>Benifits</h2>
 <ul>
     <li>Optimized for 10kB inital page load (till user adds feeds)
     <li>Accessiable without JavaScript
-    <li>Cached with Service Worker
-    <li>Used HTML5 features
-    <li>Cloudinary CDN
+    <li>Simple offline with Service Worker
+    <li>Optimized images over CDN
+    <li>HTML5 native features
 </ul>
 <h2>Minimum server requirements</h2>
 <p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable, run <code>chmod -R 777 ~cache</code></p>
-<p><var>config.php</var> contains configuration flags. Optimized images delivered trough Cloudinary CDN (turn on/off in UI or <var>config.php</var>).
+<p><var>config.php</var> contains configuration flags.</p>
+<p><b>Faster delivery</b> applies Cloudinary CDN for better image optimization (notice, may exceed the bandwidth).</p>
 <h2>Storage</h2>
 <ul>
     <li>CSS assets stored in Web Cache Storage
@@ -122,7 +125,7 @@ if ($origin === 'about') {
         $navigation .= '</select>
         <li class=filter><label title="Display article images"><input name=imageShow type=checkbox onclick=this.form.submit()' . ($imageShow ? ' checked' : null) . '> Show images</label><label' .
             ($imageShow ? ' title="Use Cloudinary CDN for optimized image delivery (turn off when bandwidth exceeded)"' : ' class=disabled title="Requires &quot;Show images&quot; enabled"') .
-            '><input name=overCDN type=checkbox' . ($imageShow ? ' onclick=this.form.submit()' . ($imagePrefix ? ' checked' : null) : ' disabled') . '> Fast delivery</label><input name=url value="' . $url . '" hidden><input id=x type=submit value=Update><script>document.getElementById("x").remove();</script>
+            '><input name=imageFast type=checkbox' . ($imageShow ? ' onclick=this.form.submit()' . ($imageFast ? ' checked' : null) : ' disabled') . '> Faster delivery</label><input name=url value="' . $url . '" hidden><input id=x type=submit value=Update><script>document.getElementById("x").remove();</script>
         <li><button' . linkParams() .'>All <span>feeds</span></button>';
 
         foreach ($session as $item) {

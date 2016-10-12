@@ -5,15 +5,36 @@ session_start();
 
 if (isset($_POST['maxRange'])) {
     $_SESSION['imageShow'] = isset($_POST['imageShow']);
-    $_SESSION['overCDN'] = isset($_POST['overCDN']);
+    $_SESSION['imageFast'] = isset($_POST['imageFast']);
     $_SESSION['maxRange'] = $_POST['maxRange'];
 }
 
 $cacheDir = '~cache';
-$imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;
 $maxRange = isset($_SESSION['maxRange']) ? $_SESSION['maxRange'] : 3; // Feed time range limit
-$overCDN = isset($_SESSION['overCDN']) ? $_SESSION['overCDN'] : false; // Use Cloudinary CDN for images
-$imagePrefix = $overCDN === true ? '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/' : null;
+$imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;
+$imageFast = isset($_SESSION['imageFast']) ? $_SESSION['imageFast'] : false;
+
+function imageOptimized($url = '') {
+    global $imageFast;
+
+    if (strlen($url)) {
+        if ($imageFast === true) {
+            // Cloudinary CDN for better optimization (notice, may exceed the bandwidth)
+            return '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/' . $url;
+        } else {
+            // Optional image crop proxies
+            // https://images.weserv.nl/?url=domain.com/image.jpg&w=520&h=153&t=square&q=58&il
+            // This all returns error 403 for image https://assets.materialup.com/uploads/bfc4fff8-520c-4746-808e-41f8f7ffb8b5/preview.png
+            // https://next-geebee.ft.com/image/v1/images/raw/http://domain.com/image.jpg?source=.&width=520&height=153&quality=low
+            // https://image.webservices.ft.com/v1/images/raw/http://domain.com/image.jpg?source=.&width=520&height=153&qualitylow
+            // https://visuals.feedly.com/v1/resize?url=http://domain.com/image.jpg&sizes=520x153
+            return 'https://images.weserv.nl/?url=' . preg_replace('/^https?\:\/\//', '', $url) . '&w=520&h=153&t=square&q=58&il';
+        }
+    } else {
+        return $url;
+    }
+}
+
 $maxRangeList = [
     1 => 'Last 24 hours',
     3 => 'Last 3 days',
@@ -24,7 +45,6 @@ $maxRangeList = [
 $summarizeLenght = 100;
 $cacheAge = 60 * 5; // Store/use cache for 5 min
 $toMinify = true;
-$swVersion = filemtime('sw.php');
 $suggestions = [
     'http://www.cnet.com/rss/all/',
     'http://www.nytimes.com/',
@@ -94,7 +114,7 @@ if (isset($_GET['url'])) {
 }
 if (empty($origin)) {
     $origin = '';
-} else if ($avoidSpecialChars) {
+} else {
     $origin = preg_replace('/^(https?)@/', '$1://', $origin);
 }
 if (isset($_POST['url'])) $url = $_POST['url'];

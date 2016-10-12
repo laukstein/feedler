@@ -17,10 +17,10 @@
     RewriteRule (^|.+) /%1 [R=301,L]
 
     # Filename-based cache busting
-    RewriteRule ^sw-(\d{1,10}+)$ sw.php?ver=$1 [L]
     RewriteRule ^(.+)-(\d{1,10}+).css$ $1.min.css [L]
 
-    RewriteRule ^manifest$ manifest.php [QSD,L]
+    RewriteRule ^manifest$ manifest.php [L]
+    RewriteRule ^serviceworker$ serviceworker.php [L]
 
     # URL rewrite and secure directories
     RewriteCond %{THE_REQUEST} \s/+(\S+)
