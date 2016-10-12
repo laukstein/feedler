@@ -17,7 +17,7 @@ function feedFeach($listURL) {
 
         if (!$url) return $url;
 
-        $url = (string) $url;
+        $url = trim((string) $url);
 
         if (!$url) return $base;
         if (parse_url($url, PHP_URL_SCHEME) || strpos($url, '//') === 0) return $url;
@@ -87,10 +87,12 @@ function feedFeach($listURL) {
             if (count($diff)) receiveData($diff);
         }
     }
-    function setData($rss, $searchURL, $feedURL) {
+    function setData($rss, $searchURL, $feedURL = null) {
         global $base, $json, $maxCount, $status, $isPersonalized, $imageShow, $defaultURL;
 
         $newURL = isset($_SESSION['personalized']) || $json['session'] !== $defaultURL;
+        $feedURL = isset($feedURL) ? $feedURL :
+            (isset($_SESSION['listURL'][$searchURL]) && isset($_SESSION['listURL'][$searchURL]['feed']) ? $_SESSION['listURL'][$searchURL]['feed'] : null);
 
         if (empty($_SESSION['personalized'])) {
             $imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : $newURL;
@@ -332,6 +334,9 @@ function feedFeach($listURL) {
                         'type' => isset($json['info'][$searchURL]['type']) ? $json['info'][$searchURL]['type'] : null,
                         'feed' => isset($json['info'][$searchURL]['feed']) ? $json['info'][$searchURL]['feed'] : null
                     ];
+                } else if (empty($_SESSION['listURL'][$searchURL]['feed'])) {
+                    // Backwards compatibility (v2.0 2016/10/13)
+                    $_SESSION['listURL'][$searchURL]['feed'] = isset($json['info'][$searchURL]['feed']) ? $json['info'][$searchURL]['feed'] : null;
                 }
 
                 $_SESSION['listURL'][$searchURL]['count'] = isset($json['info'][$searchURL]['count']) ? $json['info'][$searchURL]['count'] : 0;
@@ -366,7 +371,7 @@ function feedFeach($listURL) {
             $base = parse_url($url);
             $base = $base['scheme'] . '://' . $base['host'];
 
-            setData(@simplexml_load_string($content), $originURL, $url);
+            setData(@simplexml_load_string($content, 'SimpleXMLElement', LIBXML_NOBLANKS | LIBXML_NOCDATA), $originURL);
             newRequest();
 
             return $json;
@@ -418,7 +423,7 @@ function feedFeach($listURL) {
                 array_push($json['status'], sprintf($status['error'], $code));
                 newRequest();
                 return $json;
-            } else if ($rss = @simplexml_load_string($content)) {
+            } else if ($rss = @simplexml_load_string($content, 'SimpleXMLElement', LIBXML_NOBLANKS | LIBXML_NOCDATA)) {
                 file_put_contents($file, $content);
 
                 $base = parse_url($url);

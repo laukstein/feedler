@@ -66,7 +66,9 @@ function pageHeader() {
         if (isset($page['form']))  $result .= "</form>";
     }
     if (!(empty($link) && empty($origin)) && isset($json['status'])) $result .= '<p>' . implode("</p><p>", $json['status']) . '</p>';
-    if (isset($obj['type'])) $result .= '<dfn><a href="' . $url . '" title="The feed address" target=_blank rel="nofollow noopener" tabindex=0>' . $obj['type'] . '</a></dfn> ';
+    if (isset($obj['type'])) $result .= '<dfn>' .
+        (isset($obj['feed']) ? '<a href="' . $obj['feed'] . '" title="The feed address" target=_blank rel="nofollow noopener" tabindex=0>' : null) . $obj['type'] .
+        (isset($obj['feed']) ? '</a>' : null) . '</dfn> ';
     if (isset($obj['lastBuildDate'])) $result .= '<time itemprop=dateModified datetime="' . $obj['lastBuildDate'] . '">Last update ' . $obj['lastBuildDate'] . '</time>';
     if (isset($obj['search'])) $result .= "<form action=$canonical target=_top method=post><button name=remove value=\"" . $obj['search'] . '">Remove this feed</button></form>';
     if (isset($obj['suggestionsForm'])) $result .= $suggestionsForm;
