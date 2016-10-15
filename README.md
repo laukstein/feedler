@@ -7,7 +7,7 @@ Feedler is a personalized news reader, optimized for performance and accessibili
 
 ## History
 
-Feedler began with participating to [10K Apart](https://a-k-apart.com) with [Version 1](https://github.com/laukstein/feedler/releases/tag/v1.0), later continued improved.
+Feedler began with participating to [10K Apart](https://a-k-apart.com/gallery/Feedler-personalized-news) with [Version 1](https://github.com/laukstein/feedler/releases/tag/v1.0), later continued improved.
 
 
 ## How to use
