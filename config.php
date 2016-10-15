@@ -46,7 +46,9 @@ $summarizeLenght = 100;
 $cacheAge = 60 * 5; // Store/use cache for 5 min
 $toMinify = true;
 $suggestions = [
+    // 'cnet.com',
     'http://www.cnet.com/rss/all/',
+    // 'nytimes.com',
     'http://www.nytimes.com/',
     // https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14- must be transfered to this
     'https://www.youtube.com/feeds/videos.xml?playlist_id=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-',
@@ -59,8 +61,8 @@ $suggestions = [
 
 // RSS tested
 // https://sarasoueidan.com/rss.xml    => Azure returns "HTTP status code 0"
-// http://www.cnet.com/rss/all/
-// http://www.nytimes.com/
+// cnet.com -> www.cnet.com -> http://www.cnet.com/rss/all/
+// nytimes.com -> www.nytimes.com -> www.nytimes.com/services/xml/rss/nyt/HomePage.xml -> http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
 // http://nocamels.com/feed/
 // http://blogs.windows.com/feed/
 // https://sarasoueidan.com/rss.xml
@@ -105,6 +107,15 @@ $scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ||
 $pathNoSlash = getenv('DIR_SLASH') === 'off'; // Compatibility for "DirectorySlash Off" and "RewriteOptions AllowNoSlash"
 $canonical = $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . preg_replace('/^\//', '', ($pathNoSlash ? preg_replace('/\/$/', '', $path) : $path));
 $avoidSpecialChars = strpos(strtolower($_SERVER['SERVER_SOFTWARE']), 'microsoft-iis') === 0;
+$url = null;
+
+// URL regex http://regexr.com/3eepg
+$urlRegex = '(https?:\/\/[^\s\:@.,]+\.+[a-z]|www\.[^\:\s\\,]+)[^\s\\\!,]{0,}[^\s\\\!|^\.,\?$]{1,}|[^\s\:,\/\/\@\-0=]{1,}[a-z0-9\-\.]\.[a-z]{2,}(\/*[^\s\\\!]{1,}[^\s\\\!|^\.,$]|)';
+
+function validURL($url = '') {
+    global $urlRegex;
+    return isset($url) && preg_match("/$urlRegex/", $url);
+}
 
 if (isset($_GET['url'])) {
     $file = preg_replace('/(index|)\\\.php$/', '', $file);
@@ -117,11 +128,11 @@ if (empty($origin)) {
 } else {
     $origin = preg_replace('/^(https?)@/', '$1://', $origin);
 }
-if (isset($_POST['url'])) $url = $_POST['url'];
-if (empty($url) && filter_var($origin, FILTER_VALIDATE_URL)) $url = $origin;
+if (isset($_POST['url']) && validURL($_POST['url'])) $url = $_POST['url'];
+if (empty($url) && validURL($origin)) $url = $origin;
 if (isset($_POST['remove']) && isset($_SESSION['listURL']) && isset($_SESSION['listURL'][$_POST['remove']])) unset($_SESSION['listURL'][$_POST['remove']]);
 
-$showAll = empty($url);
+$showAll = empty($url) && !strlen($origin);
 $isPersonalized = isset($_SESSION['personalized']);
 $maxCount = $isPersonalized ? false : 4; // limited items count
 
@@ -140,11 +151,16 @@ function cache($file) {
     header('Last-Modified: '. date('D, d M Y H:i:s', $date) . ' GMT');
 }
 function setSession() {
-    global $session, $isPersonalized, $listURL, $defaultURL, $url;
+    global $session, $isPersonalized, $listURL, $defaultURL, $url, $showAll;
 
     $session = isset($_SESSION['listURL']) ? array_reverse($_SESSION['listURL']) : [];
     $isPersonalized = isset($_SESSION['personalized']);
-    $listURL = isset($url) && strlen($url) ? [$url] : ($isPersonalized ? array_filter(array_keys($session)) : $defaultURL);
+    $listURL = isset($url) && strlen($url) ? [$url] : ($showAll ? ($isPersonalized ? array_filter(array_keys($session)) : $defaultURL) : []);
 }
 
 setSession();
+
+if (!count($listURL) && $origin) {
+    $json['status'] = [$status['url'] . ' ' . htmlspecialchars($origin)];
+}
+

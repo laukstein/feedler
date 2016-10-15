@@ -65,6 +65,7 @@ function pageHeader() {
 
         if (isset($page['form']))  $result .= "</form>";
     }
+    if (isset($json['status'])) $result .= '<p>' . (is_array($json['status']) ? implode("</p>\n<p>", $json['status']) : $json['status']) . '</p>';
     if (!(empty($link) && empty($origin)) && isset($json['status'])) $result .= '<p>' . implode("</p><p>", $json['status']) . '</p>';
     if (isset($obj['type'])) $result .= '<dfn>' .
         (isset($obj['feed']) ? '<a href="' . $obj['feed'] . '" title="The feed address" target=_blank rel="nofollow noopener" tabindex=0>' : null) . $obj['type'] .
@@ -146,11 +147,11 @@ if ($origin === 'about') {
 
         $result .= ($isPersonalized ? $navigation : null) . "\n<div class=articles>";
 
-        if (empty($page['title'])) $page['title'] = 'Doesn\'t contain any feed';
+        $page['title'] = isset($page['title']) ? $page['title'] : 'Error';
         if ($isPersonalized && (isset($page['title']) || isset($json['status']))) $result .= "\n    <header>" . pageHeader() . '</header>';
         if (isset($json['item'])) {
             foreach ($json['item'] as $item) $result .= "\n    <article>" . item($item) . '</article>';
-        } else {
+        } else if (empty($json['status'])) {
             $result .= "\n    <div class=note role=article>Doesn't contain any feed" . ($maxRange === 'nolimit' ? null : ' witin ' . lcfirst($maxRangeList[$maxRange])) . '.</div>';
         }
 

@@ -375,7 +375,7 @@ function feedFeach($listURL) {
             newRequest();
 
             return $json;
-        } else if (!filter_var($url, FILTER_VALIDATE_URL)) {
+        } else if (!validURL($url)) {
             array_push($json['status'], $status['url']);
             newRequest();
 
@@ -471,20 +471,24 @@ function feedFeach($listURL) {
     return $json;
 }
 
-$json = feedFeach($listURL);
 
-if (!count($json['item'])) unset($json['item']);
-if (!count($json['info'])) unset($json['info']);
-if (!count($json['loaded'])) unset($json['loaded']);
-if (!count($json['status'])) unset($json['status']);
-if (isset($json['item'])) {
-    usort($json['item'], function($a, $b) {
-        return strtotime($b['datetime']) - strtotime($a['datetime']);
-    });
+if (count($listURL)) {
+    $json = feedFeach($listURL);
 
-    if ($maxCount) $json['item'] = array_slice($json['item'], 0, $maxCount);
+    if (!count($json['item'])) unset($json['item']);
+    if (!count($json['info'])) unset($json['info']);
+    if (!count($json['loaded'])) unset($json['loaded']);
+    if (!count($json['status'])) unset($json['status']);
+    if (isset($json['item'])) {
+        usort($json['item'], function($a, $b) {
+            return strtotime($b['datetime']) - strtotime($a['datetime']);
+        });
+
+        if ($maxCount) $json['item'] = array_slice($json['item'], 0, $maxCount);
+        if ($showAll) unset($json['status']);
+    }
+
+    unset($json['session']);
+
+    setSession();
 }
-
-unset($json['session']);
-
-setSession();
