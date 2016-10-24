@@ -74,16 +74,15 @@ echo "\n            </datalist>
     <h1><span>Feedler</span><small>Specialy for 10K Apart</small></h1>";
 
 if (!$openPage) {
-    echo '    <p><span class=spin><span></span></span>Achieve the latest news</p>
-    <ul class=list>';
+    echo "\n    <p><span class=spin><span></span></span>Achieve the latest news</p>\n    <ul>";
 
     if (strlen($url)) {
-        echo "        \n<li><div>$url</div>";
+        echo "\n        <li><div>$url</div>";
     } else {
-        foreach ($listURL as $item) echo "        \n<li><div>$item</div>";
+        foreach ($listURL as $item) echo "\n        <li><div>$item</div>";
     }
 
-    echo "\n</ul>";
+    echo "\n    </ul>";
 }
 
 echo '

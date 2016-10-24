@@ -215,7 +215,10 @@ p {
     border-radius: 100%;
 }
 ul {
+    overflow: hidden;
+    position: relative;
     max-width: 14em;
+    max-height: 9em;
     padding: 0;
     padding-left: 1.9em;
     margin: auto;
@@ -224,6 +227,14 @@ ul {
     font-size: 73%;
     text-align: left;
     white-space: nowrap;
+}
+ul:before {
+    content: "";
+    position: absolute;
+    top: 9em;
+    left: 0;
+    right: 0;
+    box-shadow: 0 0 2em 1em #eeeeee;
 }
 ul div {
     overflow: hidden;
