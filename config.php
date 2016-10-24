@@ -13,6 +13,7 @@ $cacheDir = '~cache';
 $maxRange = isset($_SESSION['maxRange']) ? $_SESSION['maxRange'] : 3; // Feed time range limit
 $imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;
 $imageFast = isset($_SESSION['imageFast']) ? $_SESSION['imageFast'] : false;
+$metadata = $imageFast ? "\n<meta http-equiv=Accept-CH content=DPR>" : null;
 
 function imageOptimized($url = '') {
     global $imageFast;
@@ -20,7 +21,7 @@ function imageOptimized($url = '') {
     if (strlen($url)) {
         if ($imageFast === true) {
             // Cloudinary CDN for better optimization (notice, may exceed the bandwidth)
-            return '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto/' . $url;
+            return '//res.cloudinary.com/laukstein/image/fetch/w_520,h_153,c_fill,g_face,f_auto,dpr_auto/' . $url;
         } else {
             // Optional image crop proxies
             // https://images.weserv.nl/?url=domain.com/image.jpg&w=520&h=153&t=square&q=58&il

@@ -172,7 +172,7 @@ echo '<!doctype html>
 <meta charset=utf-8>
 <title>' . $page['title'] . " — Feedler</title>
 <meta name=robots content=noindex>
-<meta name=viewport content=\"width=device-width,initial-scale=1\">
+<meta name=viewport content=\"width=device-width,initial-scale=1\">$metadata
 <link rel=stylesheet href={$path}achieve-$verCSS.css>
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>
 $result";
