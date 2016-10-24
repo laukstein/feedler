@@ -408,7 +408,7 @@ function feedFeach($listURL) {
                 CURLOPT_SSL_VERIFYHOST => 0
             ]);
 
-            $content = curl_exec($ch);
+            $content = @curl_exec($ch);
             $redir = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
             $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
