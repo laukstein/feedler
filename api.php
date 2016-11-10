@@ -388,7 +388,7 @@ function feedFeach($listURL) {
         } else if ($ch = curl_init()) {
             // Remove old cache
             foreach (new DirectoryIterator($cacheDir) as $fileInfo) {
-                if ($fileInfo->isDot()) {
+                if ($fileInfo->isDot() || $fileInfo->getFilename() === 'README.md') {
                     continue;
                 } else if ($time - $fileInfo->getCTime() >= $cacheAge * 2) {
                     @unlink($fileInfo->getRealPath());
