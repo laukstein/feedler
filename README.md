@@ -30,7 +30,10 @@ After added the first feed, it will display also images for article is has, is c
 ## Server requirements
 
 Apache 2.4 + rewrite_module or IIS web.config, PHP 5.4 + dom, curl and SimpleXML.<br>
-Directory [`~cache`](~cache) must be writable, run `chmod -R 777 ~cache`
+Directory [`~cache`](~cache) must be writable:
+
+    chmod -R 777 ~cache
+    chcon -Rt httpd_sys_content_rw_t ~cache/
 
 [`config.php`](config.php) contains configuration flags.
 

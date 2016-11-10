@@ -93,7 +93,8 @@ if ($origin === 'about') {
     <li>HTML5 native features
 </ul>
 <h2>Minimum server requirements</h2>
-<p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable, run <code>chmod -R 777 ~cache</code></p>
+<p>Apache 2.4 + <var>rewrite_module</var> or IIS <var>web.config</var>, PHP 5.4 + <var>dom</var>, <var>curl</var> and <var>SimpleXML</var>.<br>Directory <var>~cache</var> must be writable: <pre><code>chmod -R 777 ~cache
+chcon -Rt httpd_sys_content_rw_t ~cache/</code></pre></p>
 <p><var>config.php</var> contains configuration flags.</p>
 <p><b>Faster delivery</b> applies Cloudinary CDN for better image optimization (notice, may exceed the bandwidth).</p>
 <h2>Storage</h2>
