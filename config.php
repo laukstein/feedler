@@ -138,7 +138,14 @@ $isPersonalized = isset($_SESSION['personalized']);
 $maxCount = $isPersonalized ? false : 4; // limited items count
 
 function minify_output($buffer) {
-    return preg_replace(['/ {2,}/', '/<!--(?!\[if).*?-->|\t|<\/(option|li|dt|dd|tr|th|td)>|(?:\r?\n[ \t]*)+/s'], [' ', ''], $buffer);
+    $search = ['/ {2,}/', '/<!--(?!\[if).*?-->|\t|<\/(option|li|dt|dd|tr|th|td)>|(?:\r?\n[ \t]*)+/s'];
+    $blocks = preg_split('/(<\/?pre[^>]*>)/', $buffer, null, PREG_SPLIT_DELIM_CAPTURE);
+    $replace = [' ', ''];
+    $buffer = '';
+
+    foreach ($blocks as $i => $block) $buffer .= $i % 4 === 2 ? $block : preg_replace($search, $replace, $block);
+
+    return $buffer;
 }
 function cache($file) {
     $date = filemtime($file);
