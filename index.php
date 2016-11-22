@@ -74,7 +74,7 @@ echo "\n            </datalist>
     <h1><span>Feedler</span><small>Specialy for 10K Apart</small></h1>";
 
 if (!$openPage) {
-    echo "\n    <p><span class=spin><span></span></span>Achieve the latest news</p>\n    <ul>";
+    echo "\n    <p><span class=spin></span>Achieve the latest news</p>\n    <ul>";
 
     if (strlen($url)) {
         echo "\n        <li><div>$url</div>";
