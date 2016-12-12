@@ -29,7 +29,10 @@ if ($targetURL) {
     }
 }
 
-if ($scheme === 'https') header('Content-Security-Policy: upgrade-insecure-requests; referrer no-referrer');
+if ($scheme === 'https') {
+    header('Content-Security-Policy: upgrade-insecure-requests');
+    header('Referrer-Policy: no-referrer');
+}
 
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 

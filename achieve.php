@@ -6,7 +6,10 @@ ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 
 header('Cache-Control: no-cache');
 
-if ($scheme === 'https') header('Content-Security-Policy: upgrade-insecure-requests; referrer no-referrer');
+if ($scheme === 'https') {
+    header('Content-Security-Policy: upgrade-insecure-requests');
+    header('Referrer-Policy: no-referrer');
+}
 
 $result = $navigation = $suggestionsForm = '';
 $navigation = '';
