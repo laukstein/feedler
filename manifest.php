@@ -13,7 +13,7 @@ echo '{
     "description": "Feedler is a personalized news reader, optimized for performance and accessibility.",
     "icons": [{
         "src": "' . $path . 'icon.png",
-        "sizes": "196x196"
+        "sizes": "192x192"
     }],
     "start_url": "' . $path . '",
     "display": "standalone",
