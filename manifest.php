@@ -3,7 +3,7 @@
 include 'config.php';
 
 cache($_SERVER['SCRIPT_FILENAME']);
-header('Content-Type: application/manifest+json');
+header('Content-Type: application/manifest+json; charset=utf-8');
 
 echo '{
     "lang": "en",
