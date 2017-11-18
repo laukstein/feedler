@@ -71,7 +71,7 @@ echo "\n            </datalist>
         </div>
     </div>
 </header>
-<iframe name=content class=content src=\"{$path}achieve$targetURL\" width=640 height=960>Loading iframe data...</iframe>
+<iframe name=content class=content title=\"Page content\" src=\"{$path}achieve$targetURL\" width=640 height=960>Loading iframe data...</iframe>
 <div class=\"content progress\">
     <div class=logo><span></span></div>
     <h1><span>Feedler</span><small>Specialy for 10K Apart</small></h1>";
