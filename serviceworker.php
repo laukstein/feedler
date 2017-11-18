@@ -3,7 +3,7 @@
 include 'config.php';
 
 header('Cache-Control: no-cache');
-header('Content-Type: application/javascript');
+header('Content-Type: text/javascript');
 
 function updateTime() {
     $directory = new RecursiveDirectoryIterator('.', FilesystemIterator::SKIP_DOTS);
