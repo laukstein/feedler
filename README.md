@@ -37,14 +37,14 @@ Directory [`~cache`](~cache) must be writable:
 
 [`config.php`](config.php) contains configuration flags.
 
-**Faster delivery** applies Cloudinary CDN for better image optimization (notice, may exceed the bandwidth).
+**Faster delivery** applies Cloudinary CDN for better image optimization (notice, Cloudinary may exceed the bandwidth).
 
 
 ## Storage
 
 * CSS assets stored in Web Cache Storage
 * Served feeds are stored for 5 minutes in `~cache`
-* The user session is stored in `session.save_path` till PHP `session.gc_maxlifetime` expired
+* The user session is stored in `~cache` till PHP `session.gc_maxlifetime` expires
 
 
 ## License

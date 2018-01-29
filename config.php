@@ -1,6 +1,8 @@
 <?php
 
+$cacheDir = '~cache';
 
+session_save_path($cacheDir);
 session_start();
 
 if (isset($_POST['maxRange'])) {
@@ -9,7 +11,6 @@ if (isset($_POST['maxRange'])) {
     $_SESSION['maxRange'] = $_POST['maxRange'];
 }
 
-$cacheDir = '~cache';
 $maxRange = isset($_SESSION['maxRange']) ? $_SESSION['maxRange'] : 3; // Feed time range limit
 $imageShow = isset($_SESSION['imageShow']) ? $_SESSION['imageShow'] : true;
 $imageFast = isset($_SESSION['imageFast']) ? $_SESSION['imageFast'] : false;
