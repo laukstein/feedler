@@ -5,7 +5,8 @@ include 'config.php';
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 
 header('Cache-Control: no-cache');
-header("Content-Security-Policy: default-src 'none'" .
+header("Content-Security-Policy: base-uri 'none'" .
+    "; default-src 'none'" .
     "; frame-ancestors 'self'" .
     "; form-action 'self'" .
     "; img-src *" .

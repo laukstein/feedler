@@ -31,7 +31,8 @@ if ($targetURL) {
 
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 
-header("Content-Security-Policy: default-src 'none'" .
+header("Content-Security-Policy: base-uri 'none'" .
+    "; default-src 'none'" .
     "; frame-ancestors 'none'" .
     "; frame-src 'self'" .
     "; form-action 'self'" .
