@@ -31,6 +31,7 @@ if ($targetURL) {
 
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 
+$nonce = base64_encode(openssl_random_pseudo_bytes(16));
 header("Content-Security-Policy: base-uri 'none'" .
     "; default-src 'none'" .
     "; frame-ancestors 'none'" .
@@ -38,7 +39,7 @@ header("Content-Security-Policy: base-uri 'none'" .
     "; form-action 'self'" .
     "; img-src 'self'" .
     "; manifest-src 'self'" .
-    "; script-src 'self' 'unsafe-inline'" .
+    "; script-src 'self' 'strict-dynamic' 'unsafe-inline' 'nonce-$nonce'" .
     "; style-src 'self' 'unsafe-inline'" .
     ($scheme === 'https' ? '; upgrade-insecure-requests' : null));
 header('Referrer-Policy: no-referrer');
@@ -98,4 +99,4 @@ if (!$openPage) {
 
 echo '
 </div>
-<script>("localhost"===location.host||"https:"===location.protocol)&&"serviceWorker"in navigator&&navigator.serviceWorker.register("' . $path . 'serviceworker",{scope:"' . $path . '"});</script>';
+<script nonce="' . $nonce . '">("localhost"===location.host||"https:"===location.protocol)&&"serviceWorker"in navigator&&navigator.serviceWorker.register("' . $path . 'serviceworker",{scope:"' . $path . '"});</script>';
