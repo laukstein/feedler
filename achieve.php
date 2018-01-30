@@ -5,11 +5,14 @@ include 'config.php';
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
 
 header('Cache-Control: no-cache');
-
-if ($scheme === 'https') {
-    header('Content-Security-Policy: upgrade-insecure-requests');
-    header('Referrer-Policy: no-referrer');
-}
+header("Content-Security-Policy: default-src 'none'" .
+    "; frame-ancestors 'self'" .
+    "; form-action 'self'" .
+    "; img-src *" .
+    "; script-src 'unsafe-inline'" .
+    "; style-src 'self' 'unsafe-inline'" .
+    ($scheme === 'https' ? '; upgrade-insecure-requests' : null));
+header('Referrer-Policy: no-referrer');
 
 $result = $navigation = $suggestionsForm = '';
 $navigation = '';

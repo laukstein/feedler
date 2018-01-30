@@ -29,10 +29,18 @@ if ($targetURL) {
     }
 }
 
-header('Content-Security-Policy:' . ($scheme === 'https' ? ' upgrade-insecure-requests;' : null) . " frame-ancestors 'none'");
-header('Referrer-Policy: no-referrer');
-
 ob_start($toMinify ? 'minify_output' : 'ob_gzhandler');
+
+header("Content-Security-Policy: default-src 'none'" .
+    "; frame-ancestors 'none'" .
+    "; frame-src 'self'" .
+    "; form-action 'self'" .
+    "; img-src 'self'" .
+    "; manifest-src 'self'" .
+    "; script-src 'self' 'unsafe-inline'" .
+    "; style-src 'self' 'unsafe-inline'" .
+    ($scheme === 'https' ? '; upgrade-insecure-requests' : null));
+header('Referrer-Policy: no-referrer');
 
 $verCSS = filemtime('style.min.css');
 
