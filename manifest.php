@@ -9,7 +9,6 @@ echo '{
     "lang": "en",
     "name": "Feedler — personalized news reader",
     "short_name": "Feeder",
-    "version": "1",
     "description": "Feedler is a personalized news reader, optimized for performance and accessibility.",
     "icons": [{
         "src": "' . $path . 'icon.png",
