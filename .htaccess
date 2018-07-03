@@ -16,6 +16,9 @@
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\s/(.*)\.php($|\s|\?)
     RewriteRule (^|.+) /%1 [R=301,L]
 
+    # Web Manifest
+    RewriteRule ^manifest.webmanifest$ manifest.php [L]
+
     # Filename-based cache busting
     RewriteRule ^(.+)-(\d{1,10}+).css$ $1.min.css [L]
     RewriteRule ^serviceworker$ serviceworker.php [L]
