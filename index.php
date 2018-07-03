@@ -45,6 +45,9 @@ header("Content-Security-Policy: base-uri 'none'" .
 header('Referrer-Policy: no-referrer');
 
 $verCSS = filemtime('style.min.css');
+$CSS = $toMinify ?
+    '<style>' . (file_get_contents('style.css')) . '</style>' :
+    "<link rel=stylesheet href={$path}style-$verCSS.css>";
 
 echo "<!doctype html>
 <html lang=en>
@@ -57,7 +60,7 @@ echo "<!doctype html>
 <meta name=theme-color content=#774cff>
 <link rel=canonical href=$canonical>
 <link rel=manifest href={$path}manifest>
-<link rel=stylesheet href={$path}style-$verCSS.css>
+$CSS
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
 
 if (!empty($root)) echo "\n<link rel=\"shortcut icon\" href={$path}favicon.png>";
