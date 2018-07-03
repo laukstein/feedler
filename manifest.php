@@ -1,9 +1,8 @@
 <?php
 
-include 'config.php';
-
-cache($_SERVER['SCRIPT_FILENAME']);
 header('Content-Type: application/manifest+json; charset=utf-8');
+
+include 'config.php';
 
 echo '{
     "lang": "en",
