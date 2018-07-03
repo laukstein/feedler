@@ -18,8 +18,6 @@
 
     # Filename-based cache busting
     RewriteRule ^(.+)-(\d{1,10}+).css$ $1.min.css [L]
-
-    RewriteRule ^manifest$ manifest.php [L]
     RewriteRule ^serviceworker$ serviceworker.php [L]
 
     # URL rewrite and secure directories

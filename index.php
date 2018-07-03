@@ -59,7 +59,7 @@ echo "<!doctype html>
 <meta name=apple-mobile-web-app-capable content=yes>
 <meta name=theme-color content=#774cff>
 <link rel=canonical href=$canonical>
-<link rel=manifest href={$path}manifest>
+<link rel=manifest href={$path}manifest.webmanifest>
 $CSS
 <link rel=license href=//creativecommons.org/licenses/by-nc-nd/4.0/>";
 
