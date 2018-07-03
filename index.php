@@ -44,10 +44,9 @@ header("Content-Security-Policy: base-uri 'none'" .
     ($scheme === 'https' ? '; upgrade-insecure-requests' : null));
 header('Referrer-Policy: no-referrer');
 
-$verCSS = filemtime('style.min.css');
 $CSS = $toMinify ?
     '<style>' . (file_get_contents('style.css')) . '</style>' :
-    "<link rel=stylesheet href={$path}style-$verCSS.css>";
+    "<link rel=stylesheet href={$path}style.css>";
 
 echo "<!doctype html>
 <html lang=en>
