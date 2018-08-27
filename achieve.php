@@ -136,7 +136,7 @@ chcon -Rt httpd_sys_content_rw_t ~cache/</code></pre></p>
         $navigation .= '</select>
         <li class=filter><label title="Display article images"><input name=imageShow type=checkbox onclick=this.form.submit()' . ($imageShow ? ' checked' : null) . '> Show images</label><label' .
             ($imageShow ? ' title="Use Cloudinary CDN for optimized image delivery (turn off when bandwidth exceeded)"' : ' class=disabled title="Requires &quot;Show images&quot; enabled"') .
-            '><input name=imageFast type=checkbox' . ($imageShow ? ' onclick=this.form.submit()' . ($imageFast ? ' checked' : null) : ' disabled') . '> Faster delivery</label><input name=url value="' . $url . '" hidden><input id=x type=submit value=Update><script>document.getElementById("x").remove();</script>
+            '><input name=imageFast type=checkbox' . ($imageShow ? ' onclick=this.form.submit()' . ($imageFast ? ' checked' : null) : ' disabled') . '> Faster delivery</label><input name=url inputmode=url value="' . $url . '" hidden><input id=x type=submit value=Update><script>document.getElementById("x").remove();</script>
         <li><button' . linkParams() .'>All <span>feeds</span></button>';
 
         foreach ($session as $item) {
