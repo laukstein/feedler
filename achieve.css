@@ -41,9 +41,8 @@ img,
 .image {
     -ms-interpolation-mode: nearest-neighbor; /* IE8-IE11 legacy */
     image-rendering: -webkit-optimize-contrast; /* Webkit will drop this property https://bugs.webkit.org/show_bug.cgi?id=97991#c5 */
-    image-rendering: -moz-crisp-edges; /* Firefox legacy */
-    image-rendering:      crisp-edges; /* Safari legacy */
-    image-rendering: pixelated;
+    image-rendering: crisp-edges; /* Firefox, Safari legacy */
+    image-rendering: pixelated; /* Chrome; Eaquals non standard "optimizeSpeed" */
 }
 :focus {
     position: relative;
