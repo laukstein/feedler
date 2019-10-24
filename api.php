@@ -4,6 +4,7 @@ function feedFeach($listURL) {
     global $base, $showAll, $json;
 
     $base = null;
+    $proxy = null;
     $json = [
         'info' => [],
         'item' => [],
@@ -343,8 +344,23 @@ function feedFeach($listURL) {
             }
         }
     }
+    function getProxyServer() {
+        $opt = (object) [
+            'server' => '127.0.0.1',
+            // Port 9150 if used Tor Browser Bundle
+            'port' => 9050,
+            'timeout' => 5
+        ];
+
+        // https://stackoverflow.com/questions/6968228/how-will-i-know-if-my-curl-proxy-is-down
+        if (@fsockopen($opt->server, $opt->port, $errorNumber, $errorMessage, $opt->timeout)) {
+            return "$opt->server:$opt->port";
+        }
+
+        return "";
+    }
     function receiveData($listURL, $result = '', $feedSearch = true, $originURL = null) {
-        global $base, $json, $cacheDir, $cacheAge, $status;
+        global $base, $proxy, $json, $cacheDir, $cacheAge, $status;
 
         $url = is_array($listURL) ? array_shift($listURL) : $listURL;
         $originURL = isset($originURL) ? $originURL : $url;
@@ -397,22 +413,40 @@ function feedFeach($listURL) {
                 }
             }
 
-            curl_setopt_array($ch, [
-                CURLOPT_URL => $url,
-                CURLOPT_HEADER => 0,
-                CURLOPT_TIMEOUT => 5,
-                CURLOPT_CONNECTTIMEOUT => 2,
-                CURLOPT_FOLLOWLOCATION => 1,
-                CURLOPT_USERAGENT => $_SERVER['HTTP_USER_AGENT'],
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_AUTOREFERER => 1,
-                CURLOPT_SSL_VERIFYPEER => 0,
-                CURLOPT_SSL_VERIFYHOST => 0
-            ]);
+            $opt = [
+                CURLOPT_URL            => $url,
+                // https://support.google.com/webmasters/answer/1061943
+                CURLOPT_USERAGENT      => 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+                CURLOPT_HEADER         => false,
+                CURLOPT_REFERER        => 'http://www.google.com',
+                CURLOPT_ENCODING       => 'gzip, deflate',
+                CURLOPT_AUTOREFERER    => true,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_MAXREDIRS      => 5,
+                CURLOPT_CONNECTTIMEOUT => 15,
+                CURLOPT_TIMEOUT        => 30,
+                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_2_0
+            ];
 
-            $content = @curl_exec($ch);
+            if (is_null($proxy)) {
+                $proxy = getProxyServer();
+            }
+            if ($proxy) {
+                $opt += [
+                    // https://www.joe0.com/2017/03/06/how-to-anonymize-traffic-programmatically-by-using-phpcurl-and-tor-network/
+                    CURLOPT_PROXY           => $proxy,
+                    CURLOPT_HTTPPROXYTUNNEL => 1,
+                    CURLOPT_PROXYTYPE       => 7
+                ];
+            }
+
+            curl_setopt_array($ch, $opt);
+
+            $res = @curl_exec($ch);
             $redir = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
-            $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
             curl_close($ch);
 
@@ -421,23 +455,23 @@ function feedFeach($listURL) {
 
                 $url = preg_replace('/^(?!https?:\/\/)/', 'http://', $redir);
             }
-            if ($code !== 200 && $code !== 302 && $code !== 304) {
-                array_push($json['status'], sprintf($status['error'], $code));
+            if ($httpcode !== 200 && $httpcode !== 302 && $httpcode !== 304) {
+                array_push($json['status'], sprintf($status['error'], $httpcode));
                 newRequest();
                 return $json;
-            } else if ($rss = @simplexml_load_string($content, 'SimpleXMLElement', LIBXML_NOBLANKS | LIBXML_NOCDATA)) {
-                file_put_contents($file, $content);
+            } else if ($rss = @simplexml_load_string($res, 'SimpleXMLElement', LIBXML_NOBLANKS | LIBXML_NOCDATA)) {
+                file_put_contents($file, $res);
 
                 $base = parse_url($url);
                 $base = $base['scheme'] . '://' . $base['host'];
 
                 setData($rss, $originURL, $url);
-            } else if ($content && $feedSearch) {
+            } else if ($res && $feedSearch) {
                 $dom = new DOMDocument;
                 $dom->preserveWhiteSpace = false;
 
                 libxml_use_internal_errors(true);
-                $dom->loadHTML($content);
+                $dom->loadHTML($res);
                 libxml_clear_errors();
 
                 $xpath = new DOMXPath($dom);
