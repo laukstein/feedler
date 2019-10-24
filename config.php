@@ -49,16 +49,16 @@ $cacheAge = 60 * 5; // Store/use cache for 5 min
 $toMinify = true;
 $suggestions = [
     // 'cnet.com',
-    'http://www.cnet.com/rss/all/',
+    'https://www.cnet.com/rss/all/',
     // 'nytimes.com',
-    'http://www.nytimes.com/',
+    'https://www.nytimes.com/',
     // https://www.youtube.com/playlist?list=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14- must be transfered to this
     'https://www.youtube.com/feeds/videos.xml?playlist_id=PLrEnWoR732-BHrPp_Pm8_VleD68f9s14-',
-    'http://blogs.windows.com/feed/',
+    'https://blogs.windows.com/feed/',
     'https://www.smashingmagazine.com/feed/',
-    'http://feeds.feedburner.com/CssTricks',
+    'https://feeds.feedburner.com/CssTricks',
     'https://material.uplabs.com',
-    'http://rss.walla.co.il/?w=/1/0/12/@rss.e'
+    'http://rss.walla.co.il/feed/1?type=main'
 ];
 
 // RSS tested
