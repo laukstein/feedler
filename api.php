@@ -426,8 +426,8 @@ function feedFeach($listURL) {
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_MAXREDIRS      => 5,
                 CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT        => 30,
-                CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_2_0
+                CURLOPT_TIMEOUT        => 30
+                // CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_2_0
             ];
 
             if (is_null($proxy)) {
