@@ -4,28 +4,29 @@ include 'config.php';
 
 header('Cache-Control: no-cache');
 
-$url = isset($_POST['url']) ? htmlspecialchars($_POST['url'], ENT_COMPAT) : null;
+$url = isset($_POST['url']) ? htmlspecialchars($_POST['url'], ENT_COMPAT) : '';
 $openPage = isset($_POST['page']) && $_POST['page'] === 'about' ? true : false;
 $targetURL = $openPage ? '/about' : (strlen($url) ? '/' . $url : null);
 $currentURL = isset($_GET['i']) ? preg_replace('/^\//', '', $_GET['i']) : null; // preg_replace() used for IIS compatibility
 
 if ($targetURL) {
-    if ($avoidSpecialChars) $targetURL = str_replace('://', '@', $targetURL);
+    if ($avoidSpecialChars) {
+        $targetURL = str_replace('://', '@', $targetURL);
+    }
 
     header("Location: {$path}i$targetURL");
     exit;
+} else if (isset($_POST['url']) && !$url) {
+    header("Location: $canonical", true, 301);
+    exit;
 } else if (!$url) {
     $inRoot = preg_match('/^\/?' . str_replace('/', '\/', $currentURL) . '\/?$/', $path);
+    $url = $inRoot ? '' : preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
+    $openPage = $url === 'about';
+    $targetURL = $url ? '/' . $url : null;
 
-    if (($url === '' || $inRoot) && $canonical !== $scheme . '://' . $_SERVER['SERVER_NAME'] . '/' . $currentURL) {
-        header("Location: $canonical", true, 301);
-        exit;
-    } else {
-        $url = $inRoot ? null : preg_replace('/^' . str_replace('/', '\/', preg_replace('/^\//', '', $path)) . 'i\//', '', $currentURL);
-        $openPage = $url === 'about';
-        $targetURL = $url ?  '/' . $url : null;
-
-        if (isset($url) && $avoidSpecialChars) $url = preg_replace('/^(https?)@/', '$1://', $url);
+    if (isset($url) && $avoidSpecialChars) {
+        $url = preg_replace('/^(https?)@/', '$1://', $url);
     }
 }
 

@@ -1,4 +1,4 @@
-# Feedler v2
+# [Feedler v2](https://lab.laukstein.com/feedler)
 
 Feedler is a personalized news reader, optimized for performance and accessibility.
 

@@ -139,12 +139,22 @@ $isPersonalized = isset($_SESSION['personalized']);
 $maxCount = $isPersonalized ? false : 4; // limited items count
 
 function minify_output($buffer) {
-    $search = ['/ {2,}/', '/<!--(?!\[if).*?-->|\t|<\/(option|li|dt|dd|tr|th|td)>|(?:\r?\n[ \t]*)+/s'];
-    $blocks = preg_split('/(<\/?pre[^>]*>)/', $buffer, null, PREG_SPLIT_DELIM_CAPTURE);
-    $replace = [' ', ''];
-    $buffer = '';
+    if ($buffer) {
+        $search = [
+            '/ {2,}/',
+            '/<!--(?!\[if).*?-->|\t|<\/(option|li|dt|dd|tr|th|td)>|(?:\r?\n[ \t]*)+/s'
+        ];
+        $blocks = preg_split('/(<\/?pre[^>]*>)/', $buffer, 0, PREG_SPLIT_DELIM_CAPTURE);
+        $replace = [
+            ' ',
+            ''
+        ];
+        $buffer = '';
 
-    foreach ($blocks as $i => $block) $buffer .= $i % 4 === 2 ? $block : preg_replace($search, $replace, $block);
+        foreach ($blocks as $i => $block) {
+            $buffer .= $i % 4 === 2 ? $block : preg_replace($search, $replace, $block);
+        }
+    }
 
     return $buffer;
 }
