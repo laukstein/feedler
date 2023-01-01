@@ -41,9 +41,9 @@ function feedFeach($listURL) {
     function elapsedTime($time, $full = false) {
         $now = new DateTime;
         $ago = new DateTime((string) $time);
-        $diff = $now->diff($ago);
-        $diff->w = floor($diff->d / 7);
-        $diff->d -= $diff->w * 7;
+        $diff = (array) $now->diff($ago);
+        $diff['w'] = floor($diff['d'] / 7);
+        $diff['d'] -= $diff['w'] * 7;
 
         $str = [
             'y' => 'year',
@@ -56,8 +56,8 @@ function feedFeach($listURL) {
         ];
 
         foreach ($str as $k => &$v) {
-            if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+            if (!empty($diff[$k])) {
+                $v = $diff[$k] . ' ' . $v . ($diff[$k] > 1 ? 's' : '');
             } else {
                 unset($str[$k]);
             }
