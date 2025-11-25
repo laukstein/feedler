@@ -1,4 +1,4 @@
-# [Feedler v2](https://lab.laukstein.com/feedler)
+# Feedler v2
 
 Feedler is a personalized news reader, optimized for performance and accessibility.
 
@@ -7,7 +7,7 @@ Feedler is a personalized news reader, optimized for performance and accessibili
 
 ## History
 
-Feedler began with participating to [10K Apart](https://a-k-apart.com/gallery/Feedler-personalized-news) with [Version 1](https://github.com/laukstein/feedler/releases/tag/v1.0), later continued improved.
+Feedler began with participating to [10K Apart](https://web.archive.org/web/20220814081328/https://a-k-apart.com/gallery/feedler-personalized-news) with [Version 1](https://github.com/laukstein/feedler/releases/tag/v1.0), later continued improved.
 
 
 ## How to use
